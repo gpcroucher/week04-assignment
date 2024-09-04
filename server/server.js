@@ -1,6 +1,6 @@
-import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import express from "express";
 import pg from "pg";
 
 const app = express();
@@ -9,18 +9,11 @@ app.use(express.json());
 
 dotenv.config();
 
-let messages = [];
-
 const db = new pg.Pool({
   connectionString: process.env.DB_CONN_STRING,
 });
 
-async function checkSeedData() {
-  const seedData = await db.query(`SELECT * FROM messages`);
-  console.log(seedData);
-}
 checkSeedData();
-console.log({ whatisthis: "this is an object" });
 
 app.get("/", function (request, response) {
   response.json("Hello world!");
@@ -41,12 +34,11 @@ app.post("/messages", async function (request, response) {
   response.json(newMessage);
 });
 
-// app.get("/messages/random", function (request, response) {
-//   let random = Math.floor(Math.random() * messages.length);
-//   console.log(random);
-//   response.json({ message: messages[random] });
-// });
-
 app.listen(8080, function () {
   console.log("Server is running on port 8080");
 });
+
+async function checkSeedData() {
+  const seedData = await db.query(`SELECT * FROM messages`);
+  console.log(seedData);
+}

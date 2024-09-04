@@ -22,13 +22,3 @@ function handleSubmitMessageForm(event) {
   });
   event.target.reset();
 }
-
-// const randomForm = document.getElementById("randomForm");
-// const randomOutput = document.getElementById("randomOutput");
-// randomForm.addEventListener("submit", async function (event) {
-//   event.preventDefault();
-//   const response = await fetch("http://localhost:8080/mesages/random");
-//   const message = await response.json();
-//   console.log(message);
-//   randomOutput.innerText = message.message;
-// });
