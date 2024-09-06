@@ -4,12 +4,13 @@ const deleteMessagesButton = document.getElementById("deleteMessages");
 const getMessagesButton = document.getElementById("getMessages");
 const messageForm = document.getElementById("messageForm");
 const messagesDisplay = document.getElementById("messagesDisplay"); // todo: might need to change this later
-console.log(messagesDisplay);
+const usernameInput = document.getElementById("usernameInput");
 
 deleteMessagesButton.addEventListener("click", handleDeleteMessagesButton);
 getMessagesButton.addEventListener("click", getMessages);
 messageForm.addEventListener("submit", handleSubmitMessageForm);
 
+// prompt for a password and then attempt to DELETE from the server
 async function handleDeleteMessagesButton(event) {
   event.preventDefault();
   const password = prompt(
@@ -35,6 +36,7 @@ async function handleDeleteMessagesButton(event) {
   getMessages();
 }
 
+// get the form data and POST it to the server
 async function handleSubmitMessageForm(event) {
   event.preventDefault();
   console.log("Form submitted!");
@@ -42,7 +44,7 @@ async function handleSubmitMessageForm(event) {
   const time = new Date();
 
   const formData = new FormData(event.target);
-  const username = formData.get("user");
+  const username = formData.get("username");
   const title = formData.get("title");
   const content = formData.get("content");
   await fetch(`${serverURL}/messages`, {
@@ -59,8 +61,11 @@ async function handleSubmitMessageForm(event) {
   });
   getMessages();
   event.target.reset();
+  // username field stays filled in when the other fields are reset
+  usernameInput.value = username; // I don't like this but I can't think of a better way
 }
 
+// GET the messages from the server
 async function getMessages() {
   const messages = await fetch(`${serverURL}/messages`);
   const messagesData = await messages.json();
@@ -76,6 +81,7 @@ async function getMessages() {
   for await (const message of messagesData) {
     console.log(message);
 
+    // create a div with all the message info in it
     const newDiv = document.createElement("div");
     newDiv.id = `messageContainer${message.id}`;
     newDiv.classList.add("message-container");
@@ -86,9 +92,24 @@ async function getMessages() {
     newTitleElement.textContent = `${message.title}`;
     newDiv.appendChild(newTitleElement);
 
+    const newUsernameElement = document.createElement("p");
+    newUsernameElement.id = `messageUsername${message.id}`;
+    newUsernameElement.textContent = `${message.username}`;
+    newDiv.appendChild(newUsernameElement);
+
+    const messageTime = new Date(message.time);
+    const newTimeElement = document.createElement("time");
+    newTimeElement.id = `messageTime${message.id}`;
+    newTimeElement.datetime = message.time;
+    // this abominable line of code isn't quite working - must be a better way?
+    newTimeElement.textContent = `${messageTime.getUTCDate()}/${
+      messageTime.getUTCMonth() + 1
+    }/${messageTime.getUTCFullYear()} at ${messageTime.getUTCHours()}:${messageTime.getUTCMinutes()}:${messageTime.getUTCSeconds()}`;
+    newDiv.appendChild(newTimeElement);
+
     const newMessageElement = document.createElement("p");
     newMessageElement.id = `message${message.id}`;
-    newMessageElement.textContent = `Message: ${message.content}`;
+    newMessageElement.textContent = `${message.content}`;
     newDiv.appendChild(newMessageElement);
   }
 }

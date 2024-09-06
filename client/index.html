@@ -9,16 +9,23 @@
   </head>
   <body>
     <h1>Message Board</h1>
-    <form id="messageForm">
-      <label for="usernameInput">User:</label>
-      <input type="text" name="username" id="usernameInput" />
+    <form id="messageForm" class="message-form">
+      <div class="message-form-part">
+        <label for="usernameInput">User:</label>
+        <input type="text" name="username" id="usernameInput" />
+      </div>
 
-      <label for="titleInput">Subject:</label>
-      <input type="text" name="title" id="titleInput" />
+      <div class="message-form-part">
+        <label for="titleInput">Subject:</label>
+        <input type="text" name="title" id="titleInput" />
+      </div>
 
-      <label for="content">Message:</label>
-      <input type="text" name="content" id="contentInput" />
-      <button type="submit">Submit!</button>
+      <div class="message-form-part">
+        <label for="content">Message:</label>
+        <input type="text" name="content" id="contentInput" />
+      </div>
+
+      <button type="submit">Send Message</button>
     </form>
     <button id="getMessages">Get Messages</button>
     <button id="deleteMessages">Delete All Messages</button>

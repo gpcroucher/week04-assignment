@@ -13,8 +13,7 @@ const db = new pg.Pool({
   connectionString: process.env.DB_CONN_STRING,
 });
 
-// checkSeedData();
-
+// root route, does nothing
 app.get("/", function (request, response) {
   response.json("Hello world!");
 });
@@ -29,16 +28,23 @@ app.delete("/clear", async (request, response) => {
   }
 });
 
+// returns all messages from DB
 app.get("/messages", async function (request, response) {
   const messages = await db.query("SELECT * FROM messages");
   response.json(messages.rows);
 });
 
+// inserts a message into the DB and then returns it
 app.post("/messages", async function (request, response) {
   console.log("request.body", request.body);
   const newMessage = await db.query(
-    `INSERT INTO messages (title, content) VALUES ($1, $2)`,
-    [request.body.title, request.body.content]
+    `INSERT INTO messages (title, content, username, time) VALUES ($1, $2, $3, $4)`,
+    [
+      request.body.title,
+      request.body.content,
+      request.body.username,
+      request.body.time,
+    ]
   );
   response.json(newMessage);
 });
@@ -47,6 +53,7 @@ app.listen(8080, function () {
   console.log("Server is running on port 8080");
 });
 
+// testing functions not called anywhere
 async function checkSeedData() {
   const seedData = await db.query(`SELECT * FROM messages`);
   console.log(seedData);

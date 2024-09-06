@@ -3,6 +3,16 @@ body {
   background-color: antiquewhite;
 }
 
+.message-form {
+  display: flex;
+  gap: 1svw;
+}
+
+.message-form-part {
+  display: flex;
+  flex-direction: column;
+}
+
 .message-container {
   border: 1px dotted black;
   border-radius: 5px;
@@ -13,11 +23,12 @@ body {
 .message-container p {
   padding: 0;
   margin: 0;
-  word-wrap: break-word;
+  word-break: break-word;
 }
 
-h3 {
-  margin-top: 0;
+h3,
+h4 {
+  margin: 0;
 }
 
 button {
