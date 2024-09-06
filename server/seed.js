@@ -15,13 +15,30 @@ async function makeTable() {
 
   await db.query(`CREATE TABLE messages (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  title VARCHAR(64),
-  content VARCHAR(255)
+  title VARCHAR(255),
+  content VARCHAR(10000),
+  username VARCHAR(255),
+  time TIMESTAMPTZ
 )`);
   console.log("Finished making table");
 
+  const time = new Date();
   await db.query(
-    `INSERT INTO messages (title, content) VALUES ('First seed message', 'The database is seeded'), ('Second seed message', 'Just checking...'), ('Final seed message', 'And one for luck!')`
+    `INSERT INTO messages (title, content, username, time) VALUES ($1, $2, $3, $4), ($5, $6, $7, $8), ($9, $10, $11, $12)`,
+    [
+      "First seed message",
+      "The database is seeded",
+      "Server",
+      time,
+      "Second seed message",
+      "A second message...",
+      "Server",
+      time,
+      "Final seed message",
+      "And one for luck!",
+      "Server",
+      time,
+    ]
   );
   console.log("Finished seeding table");
 }

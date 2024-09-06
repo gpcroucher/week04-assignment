@@ -39,7 +39,10 @@ async function handleSubmitMessageForm(event) {
   event.preventDefault();
   console.log("Form submitted!");
 
+  const time = new Date();
+
   const formData = new FormData(event.target);
+  const username = formData.get("user");
   const title = formData.get("title");
   const content = formData.get("content");
   await fetch(`${serverURL}/messages`, {
@@ -48,8 +51,10 @@ async function handleSubmitMessageForm(event) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      username: username,
       title: title,
       content: content,
+      time: time,
     }),
   });
   getMessages();
@@ -70,9 +75,20 @@ async function getMessages() {
 
   for await (const message of messagesData) {
     console.log(message);
-    messagesDisplay.innerHTML += `<p id="message${message.id}">Title: ${message.title}. Message: ${message.content}</p>`;
-    console.log(
-      `<p id="message${message.id}>Title: ${message.title}. Message: ${message.content}</p>`
-    );
+
+    const newDiv = document.createElement("div");
+    newDiv.id = `messageContainer${message.id}`;
+    newDiv.classList.add("message-container");
+    messagesDisplay.appendChild(newDiv);
+
+    const newTitleElement = document.createElement("h3");
+    newTitleElement.id = `messageTitle${message.id}`;
+    newTitleElement.textContent = `${message.title}`;
+    newDiv.appendChild(newTitleElement);
+
+    const newMessageElement = document.createElement("p");
+    newMessageElement.id = `message${message.id}`;
+    newMessageElement.textContent = `Message: ${message.content}`;
+    newDiv.appendChild(newMessageElement);
   }
 }

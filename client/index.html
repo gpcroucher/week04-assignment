@@ -3,13 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>04: Inputs and POST</title>
+    <title>Week 4 Assignment: Message Board</title>
     <link rel="stylesheet" href="./style.css" />
     <script type="module" src="./script.js" defer></script>
   </head>
   <body>
     <h1>Message Board</h1>
     <form id="messageForm">
+      <label for="usernameInput">User:</label>
+      <input type="text" name="username" id="usernameInput" />
+
       <label for="titleInput">Subject:</label>
       <input type="text" name="title" id="titleInput" />
 
@@ -19,8 +22,6 @@
     </form>
     <button id="getMessages">Get Messages</button>
     <button id="deleteMessages">Delete All Messages</button>
-    <div id="messagesDisplay" class="messages-display">
-      <p>messages will go here once I get round to writing that bit</p>
-    </div>
+    <div id="messagesDisplay" class="messages-display"></div>
   </body>
 </html>

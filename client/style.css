@@ -1,0 +1,38 @@
+body {
+  font-family: "Trebuchet MS", "Tahoma", sans-serif;
+  background-color: antiquewhite;
+}
+
+.message-container {
+  border: 1px dotted black;
+  border-radius: 5px;
+  background-color: whitesmoke;
+  padding: 1svw;
+}
+
+.message-container p {
+  padding: 0;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+button {
+  margin: 1svh;
+}
+
+.messages-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5svw;
+}
+
+@media (min-width: 800px) {
+  .messages-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
